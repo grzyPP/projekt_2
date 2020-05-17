@@ -5,7 +5,7 @@ namespace LiczbyPierwsze
     class Program
     {
         static ulong DivsNum;
-        
+
         static bool AlgorytmPrzykładowy(BigInteger Num)
         {
             if (Num < 2) return false;
@@ -17,6 +17,7 @@ namespace LiczbyPierwsze
         }
         static bool AlgorytmPrzykładowyInstrumentacja(BigInteger Num)
           {
+            DivsNum = 1; // Zacznij liczyć od 1, to głupie ale w tylko wtedy zgadza się liczba iteracji z tym co było w tych PDF'ach
             if (Num< 2) return false;
             else if (Num< 4) return true;
             else if (Num % 2 == 0)
@@ -30,14 +31,13 @@ namespace LiczbyPierwsze
                     if (Num % u == 0) return false;
                 }
             return true;
-
         }
-        
+
            static bool AlgorytmLepszy(BigInteger Num)
            {
             if (Num % 2 == 0)
                 return (Num == 2);
-            for (BigInteger i =3 ; i*i <= Num; i+=2)
+            for (BigInteger i =3 ; i*i <= Sqrt(Num); i+=2) //Sqrt do BigInteger musisz albo napisać albo znaleźć w necie :D ja poszedłem tą drugą drogą. I to będzie algoytm "lepszy". Math nie radzi sobie z BigInteger jakby co. Mozesz ew. się pobawić z Int64 ale mieliśmy zostać przy tym typie.
             {
                 DivsNum++;
                 if (Num % i == 0)
@@ -50,12 +50,29 @@ namespace LiczbyPierwsze
 
         /*   static bool AlgorytmLepszyInstrumentacja(BigInteger Num)
            {
-            
+            //tu instrumentacja do tego co powyej
 
     }
         static bool AlgorytmJeszczeLepszy(BigInteger Num)
            {
-            BigInteger i, p, lp, k, d, kp, dp;
+            BigInteger i, p, lp, k, d, kp, dp; //nie do końca rozumiem po co Ci a tyle zmiennych w tym miejscu.
+            https://www.geeksforgeeks.org/sieve-of-eratosthenes/
+            ^^ tu masz dobrą implementację sita erastotenesa. U siebie rozbiłem to na dwie metody. Jedną robię sito a drugą uzywam go do tablicy z liczbami.
+
+            Mniej więcej tak:
+            jako num podawałem pierwiastek z liczby początkowej, zeby nie wypasc za inta
+            static List<BigInteger> MakeSieve(int Num) {
+                List<bool> is_prime = new List<bool>(); //dynamiczna kolekcja jest latwiejsza w obsludze
+                for ktory wypelnia tablice
+
+                pozniej recznie oznaczasz 0, 1, 2 jako false po nie sa pierwsze
+
+                for z linku
+            }
+
+            druga metoda to prawie przeklejka z pozostałych.
+
+
             bool t;
 
             DivsNum = 1;
@@ -100,6 +117,7 @@ namespace LiczbyPierwsze
 
 
         }
+
         /*   static bool AlgorytmJeszczeLepszyInstrumentacja(BigInteger Num)
            {
 
@@ -112,12 +130,12 @@ namespace LiczbyPierwsze
             1009140611, 10091406133, 100914061337, 1009140613399 };
             // testy
 
-            
+
 
             foreach (BigInteger n in PrimeNums)
             {
                 DivsNum = 1;
-                Console.WriteLine("{0} | {1} | {2}", n, AlgorytmLepszy(n),DivsNum);
+                Console.WriteLine("{0} | {1} | {2}", n, AlgorytmLepszy(n),DivsNum); //PS ostatnia liczba z tym alorytmem liczyła mi się 50h
                 //AlgorytmJeszczeLepszy(n);
             }
 
